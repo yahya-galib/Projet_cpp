@@ -11,8 +11,8 @@ class Objet
         string nom;
     public:
         Objet(string);
-        string getNom() const;
-        void setNom(string);
+        virtual string getNom() const;
+        virtual void setNom(string);
         //~Objet();
 };
 

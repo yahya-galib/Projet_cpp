@@ -38,7 +38,14 @@ void Piece::getDescription(){
     cout << "Nom: "<< nom << endl;
     cout << "objets: ";
     for(Objet* s: *list->getObjets()){
-        cout << "(" << s->getNom() <<") "; 
+        if (dynamic_cast<Armes *>(s))
+            cout << "(Arme: " << s->getNom() <<") ";
+        if (dynamic_cast<Poison *>(s))
+            cout << "(Poison: " << s->getNom() <<") ";
+        if (dynamic_cast<Medicaments *>(s))
+            cout << "(Medicament: " << s->getNom() <<") ";
+        if (dynamic_cast<Boucliers *>(s))
+            cout << "(Bouclier: " << s->getNom() <<") ";
     }
     cout << endl;
 }
@@ -63,4 +70,16 @@ void Piece::retirer(Objet *o){
 
 void Piece::retirerByIndex(int i){
     list->retirerByIndex(i);
+}
+
+bool Piece::checkSortie(Direction d){
+    for (pair<enum Direction, Piece*> s : *sorties)
+    {
+        if (s.first == d)
+        {
+            return true;
+        }
+        
+    }
+    return false;
 }

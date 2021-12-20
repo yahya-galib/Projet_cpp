@@ -4,6 +4,10 @@
 #include"Conteneur.hpp"
 #include"Direction.hpp"
 #include"Objet.hpp"
+#include"Armes.hpp"
+#include"Boucliers.hpp"
+#include"Medicaments.hpp"
+#include"Poison.hpp"
 
 class Piece
 {
@@ -21,7 +25,7 @@ public:
     void getDescription();
 
     void setSorties(Piece*, Piece*, Piece*, Piece*);
-
+    bool checkSortie(Direction);
     Conteneur<Objet>* getList() const;
     
     void descriptionSorties();

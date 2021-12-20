@@ -10,11 +10,13 @@ using namespace std;
 class MotCleCommandes
 {
 private:
+    string commande;
     static const vector<string> *Commandes;
 public:
     MotCleCommandes();
-    bool estCommande(string);
-    void afficherCommandes();
+    string getCommande() const;
+    bool estCommande();
+    static void afficherCommandes();
 };
 
 

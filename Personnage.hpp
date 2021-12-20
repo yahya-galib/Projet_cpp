@@ -2,6 +2,7 @@
 #define PERSONNAGE_HPP
 
 #include"Conteneur.hpp"
+#include"Objet.hpp"
 
 class Personnage
 {
@@ -9,7 +10,7 @@ class Personnage
         string nom;
         int sante;
         int habilite;
-
+        Conteneur<Objet>* sac;
         //Conteneur<Objets> sac;
 
 
@@ -28,7 +29,6 @@ class Personnage
 
         void diminuerSante(int);
         void diminuerHabilite(int);
-
 };
 
 #endif

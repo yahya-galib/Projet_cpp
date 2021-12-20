@@ -1,12 +1,12 @@
 #include"Boucliers.hpp"
 
 
-Boucliers::Boucliers(string nm, int pr) : Objet{nm}, protection{pr} {}
+Boucliers::Boucliers(string nm, int pr) : Objet{nm}, times{pr} {}
 
-int Boucliers::getProtection() const {
-    return protection;
+int Boucliers::getTimes() const {
+    return times;
 }
 
-void Boucliers::setProtection(int pr) {
-    protection = pr;
+void Boucliers::setTimes(int pr) {
+    times = pr;
 }

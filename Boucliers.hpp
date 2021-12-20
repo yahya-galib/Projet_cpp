@@ -6,11 +6,11 @@
 class Boucliers : public Objet
 {
 private:
-   int protection;
+   int times;
 public:
     Boucliers(string, int);
-    int getProtection() const;
-    void setProtection(int);
+    int getTimes() const;
+    void setTimes(int);
 };
 
 #endif
