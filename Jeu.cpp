@@ -25,24 +25,24 @@ void Jeu::creerJeu(){
     pieceCourante = entree;
 
     Armes *ar1 = new Armes("épé",5);
-    Armes *ar2 = new Armes("marteau dacier",4);
-    Armes *ar3 = new Armes("dague de verre",3);
-    Armes *ar4 = new Armes("hache des psycho",4);
+    Armes *ar2 = new Armes("marteau_d_acier",4);
+    Armes *ar3 = new Armes("dague_de_verre",3);
+    Armes *ar4 = new Armes("hache_des_psycho",4);
 
-    Poison *p1 = new Poison("goût dhémoragie",3);
+    Poison *p1 = new Poison("gout_d_hemoragie",3);
     Poison *p2 = new Poison("rune",2);
     Poison *p3 = new Poison("piakkazol",2);
-    Poison *p4 = new Poison("toxine dentropie",2);
+    Poison *p4 = new Poison("toxine_d_entropie",2);
 
     Medicaments *m1 = new Medicaments("cicloxane",6);
     Medicaments *m2 = new Medicaments("entatinoin",5);
     Medicaments *m3 = new Medicaments("albutecin",5);
-    Medicaments *m4 = new Medicaments("navelnex atomoprox",4);
+    Medicaments *m4 = new Medicaments("navelnex_atomoprox",4);
 
-    Boucliers *b1 = new Boucliers("nights end",3);
+    Boucliers *b1 = new Boucliers("nights_end",3);
     Boucliers *b2 = new Boucliers("prologue",2);
     Boucliers *b3 = new Boucliers("darkheart",2);
-    Boucliers *b4 = new Boucliers("military visage",3);
+    Boucliers *b4 = new Boucliers("military_visage",3);
 
     /*##########  Entree  */
     entree->ajouter(ar1);
@@ -99,9 +99,9 @@ void Jeu::afficherMsgBienvennue(){
     cout << endl ;
     cout <<"Bienvennue dans le chateau des Merveilles !" << endl;
     cout <<"BeatOrLeave est un nouveau jeu d'aventure,\n";
-    cout <<"votre mission est de survivre et arriver au habilité 3";
-    cout <<"combattre les autres";
-    cout <<"utilisez des armes, boucliers et d'autres objets";
+    cout <<"votre mission est de survivre et arriver au habilité 3" << endl;
+    cout <<"combattre les autres" << endl;
+    cout <<"utilisez des armes, boucliers et d'autres objets" << endl;
     cout <<"Tapez 'aide' si vous avez besoin d'aide.";
     cout << endl;
 }
@@ -189,17 +189,12 @@ void Jeu::deplacerVersAutrePiece(){
 }
 
 void Jeu::prendreUnObjetParUnJoueur(){
-    cout << "1" << endl;
     if (joueur->getObjetsSac()->getNbObjets() == 4)
     {
-        cout << "1" << endl;
         cout << "le sac est plein" << endl;
     }
     else{
-        cout << "1" << endl;
-        cout << "Objets disponible dans la piece: "<< pieceCourante->getNom() << endl;
-        pieceCourante->getDescription();
-        cout << "ou abandonner" << endl << "objet: ";
+        cout << "abandonner" << endl << "objet: ";
         string nm;
         bool prise = false;
         cin >> nm;
@@ -231,15 +226,15 @@ void Jeu::prendreUnObjetParUnJoueur(){
 
 
 void Jeu::affichage(){
-    cout << "afficher: (sac joueur) - (objets Piece) - (personnages piece)" << endl << ">";
+    cout << "afficher: (sac_joueur) - (objets_Piece) - (personnages_piece)" << endl << ">";
     string choice{""};
     cin >> choice;
 
-    if(choice == "sac joueur")
+    if(choice == "sac_joueur")
         joueur->afficherObjetSac();
-    else if(choice == "objets Piece")
+    else if(choice == "objets_Piece")
         pieceCourante->getDescription();
-    else if(choice == "personnages piece")
+    else if(choice == "personnages_piece")
         pieceCourante->afficherPersonnages();
     else
         cout << "j'ai pas compris quoi afficher" << endl;
