@@ -1,6 +1,6 @@
 #include"MotCleCommandes.hpp"
 
-const vector<string> *MotCleCommandes::Commandes = new vector<string>({"aller","rester","aide","quitter"});
+const vector<string> *MotCleCommandes::Commandes = new vector<string>({"aller","rester","aide","quitter","afficher","ramasser"});
 
 MotCleCommandes::MotCleCommandes(){
     cout << "> ";

@@ -3,6 +3,10 @@
 
 #include"Conteneur.hpp"
 #include"Objet.hpp"
+#include"Medicaments.hpp"
+#include"Poison.hpp"
+#include"Armes.hpp"
+#include"Boucliers.hpp"
 
 class Personnage
 {
@@ -11,14 +15,13 @@ class Personnage
         int sante;
         int habilite;
         Conteneur<Objet>* sac;
-        //Conteneur<Objets> sac;
-
 
     public:
         Personnage(string);
         string getNom() const;
         int getsante() const;
         int getHabilite() const;
+        Conteneur<Objet>* getObjetsSac() const;
         
         void setNom(string);
         void setSante(int) ;
@@ -29,6 +32,13 @@ class Personnage
 
         void diminuerSante(int);
         void diminuerHabilite(int);
+
+        void ramasserObjet(Objet*);
+        void retirerObjet(Objet *);
+        void retirerObjetByIndex(int);
+
+        void afficherObjetSac();
+
 };
 
 #endif

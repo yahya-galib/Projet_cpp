@@ -11,7 +11,7 @@ private:
     static bool termine;
     Piece *pieceCourante;
     Personnage *joueur;
-    Conteneur<Personnage> *listPersonnages;
+
 public:
     Jeu();
     void creerJeu();

@@ -4,6 +4,7 @@ bool Jeu::termine = false;
 
 Jeu::Jeu(){
     creerJeu();
+    joueur = new Personnage("moi");
 }
 
 void Jeu::creerJeu(){
@@ -24,21 +25,21 @@ void Jeu::creerJeu(){
     pieceCourante = entree;
 
     Armes *ar1 = new Armes("épé",5);
-    Armes *ar2 = new Armes("marteau d'acier",4);
+    Armes *ar2 = new Armes("marteau dacier",4);
     Armes *ar3 = new Armes("dague de verre",3);
     Armes *ar4 = new Armes("hache des psycho",4);
 
-    Poison *p1 = new Poison("goût d'hémoragie",3);
+    Poison *p1 = new Poison("goût dhémoragie",3);
     Poison *p2 = new Poison("rune",2);
     Poison *p3 = new Poison("piakkazol",2);
-    Poison *p4 = new Poison("toxine d'entropie",2);
+    Poison *p4 = new Poison("toxine dentropie",2);
 
     Medicaments *m1 = new Medicaments("cicloxane",6);
     Medicaments *m2 = new Medicaments("entatinoin",5);
     Medicaments *m3 = new Medicaments("albutecin",5);
     Medicaments *m4 = new Medicaments("navelnex atomoprox",4);
 
-    Boucliers *b1 = new Boucliers("night's end",3);
+    Boucliers *b1 = new Boucliers("nights end",3);
     Boucliers *b2 = new Boucliers("prologue",2);
     Boucliers *b3 = new Boucliers("darkheart",2);
     Boucliers *b4 = new Boucliers("military visage",3);
@@ -86,6 +87,9 @@ void Jeu::Jouer(){
         MotCleCommandes commande;
         Jeu::termine = traiterCommande(commande);
 
+
+        
+
     }
     
 }
@@ -95,7 +99,7 @@ void Jeu::afficherMsgBienvennue(){
     cout << endl ;
     cout <<"Bienvennue dans le chateau des Merveilles !" << endl;
     cout <<"BeatOrLeave est un nouveau jeu d'aventure,\n";
-    cout <<"votre mission est de survivre et ariver au habilité 3";
+    cout <<"votre mission est de survivre et arriver au habilité 3";
     cout <<"combattre les autres";
     cout <<"utilisez des armes, boucliers et d'autres objets";
     cout <<"Tapez 'aide' si vous avez besoin d'aide.";
@@ -119,6 +123,14 @@ bool Jeu::traiterCommande(MotCleCommandes &cm){
     {
         return true;
     }
+    else if (cm.getCommande() == "ramasser")
+    {
+        prendreUnObjetParUnJoueur();
+    }
+    else if(cm.getCommande() == "afficher"){
+        affichage();
+    }
+    
     return false;
 }
 
@@ -176,17 +188,70 @@ void Jeu::deplacerVersAutrePiece(){
 
 }
 
+void Jeu::prendreUnObjetParUnJoueur(){
+    cout << "1" << endl;
+    if (joueur->getObjetsSac()->getNbObjets() == 4)
+    {
+        cout << "1" << endl;
+        cout << "le sac est plein" << endl;
+    }
+    else{
+        cout << "1" << endl;
+        cout << "Objets disponible dans la piece: "<< pieceCourante->getNom() << endl;
+        pieceCourante->getDescription();
+        cout << "ou abandonner" << endl << "objet: ";
+        string nm;
+        bool prise = false;
+        cin >> nm;
+
+        for (Objet *obj : *pieceCourante->getList()->getObjets())
+        {
+            if (obj->getNom() == nm)
+            {
+                pieceCourante->retirer(obj);
+                joueur->ramasserObjet(obj);
+                prise = true;
+            }
+            
+        }
+        if (!prise)
+        {
+            if (nm == "abandonner")
+                cout << "aucun objet n'est choisie" << endl;
+            else
+                cout << "je n'ai pas compris ce que vous avez ecrit" << endl;
+        }
+    }
+    
+    
+    
 
 
+}
 
 
+void Jeu::affichage(){
+    cout << "afficher: (sac joueur) - (objets Piece) - (personnages piece)" << endl << ">";
+    string choice{""};
+    cin >> choice;
+
+    if(choice == "sac joueur")
+        joueur->afficherObjetSac();
+    else if(choice == "objets Piece")
+        pieceCourante->getDescription();
+    else if(choice == "personnages piece")
+        pieceCourante->afficherPersonnages();
+    else
+        cout << "j'ai pas compris quoi afficher" << endl;
+    
+}
 
 
 /*;
 void Jeu::informatioin();
-void Jeu::affichage();
+
 void Jeu::nombreObjets();
-void Jeu::prendreUnObjetParUnJoueur();
+
 void Jeu::deposerObjetParUnJoueur();
 void Jeu::effectuerDeplacement();
 */

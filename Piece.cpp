@@ -1,6 +1,6 @@
 #include"Piece.hpp"
 
-Piece::Piece(string des) : nom{des} , sorties{new vector<pair<enum Direction, Piece*>>()} ,list{new Conteneur<Objet>} {}
+Piece::Piece(string des) : nom{des} , sorties{new vector<pair<enum Direction, Piece*>>()} ,list{new Conteneur<Objet>}, personnages{new Conteneur<Personnage>}{}
 Piece::Piece(string des, Conteneur<Objet>* cont) : nom{des}, sorties{new vector<pair<Direction, Piece*>>()} ,list{cont} {}
 
 Conteneur<Objet>* Piece::getList() const{
@@ -35,7 +35,6 @@ void Piece::descriptionSorties(){
 }
 
 void Piece::getDescription(){
-    cout << "Nom: "<< nom << endl;
     cout << "objets: ";
     for(Objet* s: *list->getObjets()){
         if (dynamic_cast<Armes *>(s))
@@ -46,6 +45,14 @@ void Piece::getDescription(){
             cout << "(Medicament: " << s->getNom() <<") ";
         if (dynamic_cast<Boucliers *>(s))
             cout << "(Bouclier: " << s->getNom() <<") ";
+    }
+    cout << endl;
+}
+
+void Piece::afficherPersonnages(){
+    cout << "objets: ";
+    for(Personnage* s: *personnages->getObjets()){
+        cout << s->getNom() << ", ";
     }
     cout << endl;
 }
@@ -68,8 +75,20 @@ void Piece::retirer(Objet *o){
     list->retirer(o);
 }
 
-void Piece::retirerByIndex(int i){
+void Piece::retirerByIndexObjet(int i){
     list->retirerByIndex(i);
+}
+
+void Piece::ajouter(Personnage *o){
+    personnages->ajouter(o);
+}
+
+void Piece::retirer(Personnage *o){
+    personnages->retirer(o);
+}
+
+void Piece::retirerByIndexPersonnage(int i){
+    personnages->retirerByIndex(i);
 }
 
 bool Piece::checkSortie(Direction d){

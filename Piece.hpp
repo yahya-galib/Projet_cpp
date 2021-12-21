@@ -3,10 +3,7 @@
 
 #include"Conteneur.hpp"
 #include"Direction.hpp"
-#include"Objet.hpp"
-#include"Armes.hpp"
-#include"Boucliers.hpp"
-#include"Medicaments.hpp"
+#include"Personnage.hpp"
 #include"Poison.hpp"
 
 class Piece
@@ -15,6 +12,7 @@ private:
     string nom;
     vector<pair<enum Direction, Piece*>> *sorties;
     Conteneur<Objet>* list;
+    Conteneur<Personnage>* personnages;
 public:
 
     Piece(string);
@@ -23,6 +21,7 @@ public:
     string getNom() const;
 
     void getDescription();
+    void afficherPersonnages();
 
     void setSorties(Piece*, Piece*, Piece*, Piece*);
     bool checkSortie(Direction);
@@ -34,10 +33,12 @@ public:
 
     void ajouter(Objet *);
     void retirer(Objet *);
-    void retirerByIndex(int);
+    void retirerByIndexObjet(int);
 
-    
-    /*~Piece();*/
+    void ajouter(Personnage *);
+    void retirer(Personnage *);
+    void retirerByIndexPersonnage(int);
+
 };
 
 
