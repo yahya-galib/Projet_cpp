@@ -2,7 +2,6 @@
 #define JEU_HPP
 
 #include"Piece.hpp"
-#include"Personnage.hpp"
 #include"MotCleCommandes.hpp"
 
 class Jeu
@@ -26,6 +25,7 @@ public:
     void deposerObjetParUnJoueur();
     void effectuerDeplacement();
     void deplacerVersAutrePiece();
+    bool combat(Personnage *, Personnage *);
 
 };
 

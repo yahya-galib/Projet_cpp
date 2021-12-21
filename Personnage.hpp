@@ -2,7 +2,6 @@
 #define PERSONNAGE_HPP
 
 #include"Conteneur.hpp"
-#include"Objet.hpp"
 #include"Medicaments.hpp"
 #include"Poison.hpp"
 #include"Armes.hpp"
@@ -14,6 +13,7 @@ class Personnage
         string nom;
         int sante;
         int habilite;
+        int frappeDegat;
         Conteneur<Objet>* sac;
 
     public:
@@ -21,11 +21,13 @@ class Personnage
         string getNom() const;
         int getsante() const;
         int getHabilite() const;
+        int getFrappeDegat() const;
         Conteneur<Objet>* getObjetsSac() const;
         
         void setNom(string);
         void setSante(int) ;
         void setHabilite(int);
+        void setFrappeDegat(int);
 
         void augementerSante(int);
         void augmenterHabilite(int);
@@ -38,6 +40,9 @@ class Personnage
         void retirerObjetByIndex(int);
 
         void afficherObjetSac();
+        void descriptionPersonnage();
+
+        int contientObjet(string);
 
 };
 

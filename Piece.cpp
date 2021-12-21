@@ -7,6 +7,10 @@ Conteneur<Objet>* Piece::getList() const{
     return list;
 }
 
+Conteneur<Personnage>* Piece::getPersonnages() const{
+    return personnages;
+}
+
 string Piece::getNom() const{
     return nom;
 }
@@ -50,7 +54,7 @@ void Piece::getDescription(){
 }
 
 void Piece::afficherPersonnages(){
-    cout << "objets: ";
+    cout << "Personnages: ";
     for(Personnage* s: *personnages->getObjets()){
         cout << s->getNom() << ", ";
     }

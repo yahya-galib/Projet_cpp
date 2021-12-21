@@ -1,10 +1,8 @@
 #ifndef PIECE_HPP
 #define PIECE_HPP
 
-#include"Conteneur.hpp"
 #include"Direction.hpp"
 #include"Personnage.hpp"
-#include"Poison.hpp"
 
 class Piece
 {
@@ -26,6 +24,7 @@ public:
     void setSorties(Piece*, Piece*, Piece*, Piece*);
     bool checkSortie(Direction);
     Conteneur<Objet>* getList() const;
+    Conteneur<Personnage>* getPersonnages() const;
     
     void descriptionSorties();
 

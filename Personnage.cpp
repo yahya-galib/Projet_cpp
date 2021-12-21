@@ -1,6 +1,6 @@
 #include"Personnage.hpp"
 
-Personnage::Personnage(string nm) : nom{nm}, sante{20} ,habilite{1}, sac {new Conteneur<Objet>} {}
+Personnage::Personnage(string nm) : nom{nm}, sante{20} ,habilite{1},frappeDegat{5}, sac {new Conteneur<Objet>} {}
 
 
 string Personnage::getNom() const{
@@ -13,6 +13,14 @@ int Personnage::getsante() const{
 
 int Personnage::getHabilite() const{
     return habilite;
+}
+
+int Personnage::getFrappeDegat() const{
+    return frappeDegat;
+}
+
+void Personnage::setFrappeDegat(int k){
+    frappeDegat = k;
 }
 
 void Personnage::setNom(string nm){
@@ -69,4 +77,22 @@ void Personnage::afficherObjetSac(){
             cout << "(Bouclier: " << s->getNom() <<") ";
     }
     cout << endl; 
+}
+
+int Personnage::contientObjet(string nm){
+    int cont{0};
+    for (Objet* i: *sac->getObjets())
+    {
+        if(i->getNom() == nm)
+            return cont;
+        cont++;
+    }
+
+    return -1;
+}
+
+void Personnage::descriptionPersonnage(){
+    cout << nom << endl;
+    cout << "santé: " << sante<< endl;
+    cout << "habilité: " <<habilite<< endl;
 }

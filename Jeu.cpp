@@ -1,4 +1,5 @@
 #include"Jeu.hpp"
+#include <unistd.h>
 
 bool Jeu::termine = false;
 
@@ -14,15 +15,22 @@ void Jeu::creerJeu(){
     Piece *salle3 = new Piece("salle3");
     Piece *salle4 = new Piece("salle4");
     Piece *salle5 = new Piece("salle5");
+    Piece *zero = new Piece("zero");
 
+    
     entree->setSorties(salle2,salle1,salle4,nullptr);
     salle1->setSorties(entree,nullptr,salle3,nullptr);
     salle2->setSorties(nullptr,entree,salle5,nullptr);
     salle3->setSorties(salle4,nullptr,nullptr,salle1);
     salle4->setSorties(salle5,salle3,nullptr,entree);
     salle5->setSorties(nullptr,salle4,nullptr,salle2);
+    zero->setSorties(nullptr,nullptr,entree,nullptr);
 
-    pieceCourante = entree;
+    pieceCourante = zero;
+
+    Personnage *per = new  Personnage("Reda");
+
+    entree->ajouter(per);
 
     Armes *ar1 = new Armes("épé",5);
     Armes *ar2 = new Armes("marteau_d_acier",4);
@@ -78,18 +86,41 @@ void Jeu::creerJeu(){
 
 void Jeu::Jouer(){
     afficherMsgBienvennue();
-
-    while (!Jeu::termine)
+    int count{1} ;
+    bool auCombat = false;
+    while (!termine)
     {
-        pieceCourante->getDescription();
-        pieceCourante->descriptionSorties();
+        auCombat = false;
+        cout <<"--------------------------" << endl << "Vous êtes dans " <<pieceCourante->getNom() << endl;
+        while (!auCombat)
+        {
+            pieceCourante->getDescription();
+            pieceCourante->afficherPersonnages();
+            pieceCourante->descriptionSorties();
 
-        MotCleCommandes commande;
-        Jeu::termine = traiterCommande(commande);
-
-
+            MotCleCommandes commande1;
+            if (commande1.getCommande() == "aller" && pieceCourante->getPersonnages()->getNbObjets() != 0)
+            {
+                cout << "Vous pouvez pas vous déplacez tant qu'il y a des ennemis";
+            }
+            else if (commande1.getCommande() == "au_combat")
+            {
+                auCombat = true;
+            }
+            else
+            {
+                auCombat = traiterCommande(commande1);
+            }
+        }
         
-
+        for (Personnage *p: *pieceCourante->getPersonnages()->getObjets())
+        {
+            termine = combat(joueur, p);
+            if (termine)
+            {
+                break;
+            }
+        }
     }
     
 }
@@ -194,7 +225,7 @@ void Jeu::prendreUnObjetParUnJoueur(){
         cout << "le sac est plein" << endl;
     }
     else{
-        cout << "abandonner" << endl << "objet: ";
+        cout << "(ou) abandonner" << endl << "objet: ";
         string nm;
         bool prise = false;
         cin >> nm;
@@ -226,7 +257,7 @@ void Jeu::prendreUnObjetParUnJoueur(){
 
 
 void Jeu::affichage(){
-    cout << "afficher: (sac_joueur) - (objets_Piece) - (personnages_piece)" << endl << ">";
+    cout << "afficher: (sac_joueur) - (objets_Piece) - (personnages_piece) - (état_joueur)" << endl << ">";
     string choice{""};
     cin >> choice;
 
@@ -236,8 +267,106 @@ void Jeu::affichage(){
         pieceCourante->getDescription();
     else if(choice == "personnages_piece")
         pieceCourante->afficherPersonnages();
+    else if(choice == "état_joueur")
+        joueur->descriptionPersonnage();
     else
         cout << "j'ai pas compris quoi afficher" << endl;
+    
+}
+
+bool Jeu::combat(Personnage *j1, Personnage *j2){
+    cout << "----------- Combat avec " << j2->getNom() << endl;
+    cout << j1->getNom() << " VS " << j2->getNom() << endl;
+    cout << j1->getHabilite() << " VS " << j2->getHabilite() << endl;
+    cout << j1->getsante() << " VS " << j2->getsante() << endl;
+    
+
+    while (j1->getsante() > 0 && j2->getsante() > 0)
+    {
+        j1->afficherObjetSac();
+        cout << "Vous voulez utiliser un objet dans le sac ? (oui/non)" << endl << ">" ;
+        string rep;
+        cin >>rep;
+        if (rep == "non")
+        {
+            j1->diminuerSante(j2->getFrappeDegat());
+            j2->diminuerSante(j1->getFrappeDegat());
+        }
+        else if ("oui"){
+            j1->afficherObjetSac();
+            cout << "quel objet: ";
+            string s;
+            cin >> s;
+            int choice = j1->contientObjet(s);
+            if (choice != -1)
+            {
+                if (dynamic_cast<Poison *>(j1->getObjetsSac()->getObjets()->at(choice)))
+                {
+                    Poison *p = (Poison *) j1->getObjetsSac()->getObjets()->at(choice);
+                    j1->diminuerSante(j2->getFrappeDegat());
+                    j2->diminuerSante(j1->getFrappeDegat());
+                    j2->diminuerSante(p->getPoisonDegat());
+
+                    j1->retirerObjet(p);
+                }
+                if (dynamic_cast<Armes *>(j1->getObjetsSac()->getObjets()->at(choice)))
+                {
+                    Armes *p = (Armes *) j1->getObjetsSac()->getObjets()->at(choice);
+                    j1->setFrappeDegat(j1->getFrappeDegat() + p->getDegat());
+
+                    j1->diminuerSante(j2->getFrappeDegat());
+                    j2->diminuerSante(j1->getFrappeDegat());
+
+                }
+                if (dynamic_cast<Medicaments *>(j1->getObjetsSac()->getObjets()->at(choice)))
+                {
+                    Medicaments *p = (Medicaments *) j1->getObjetsSac()->getObjets()->at(choice);
+                    
+                    j1->augementerSante(p->getGuerison());
+
+                    j1->diminuerSante(j2->getFrappeDegat());
+                    j2->diminuerSante(j1->getFrappeDegat());
+
+                }
+                if (dynamic_cast<Boucliers *>(j1->getObjetsSac()->getObjets()->at(choice)))
+                {
+                    Boucliers *p = (Boucliers *) j1->getObjetsSac()->getObjets()->at(choice);
+                    
+                    if(p->getTimes() > 0){
+                        j2->diminuerSante(j1->getFrappeDegat());
+                        p->setTimes(p->getTimes() - 1);
+                    }
+                    else{
+                        cout << "Bouclier damagé (il va être retirer" << endl;
+                    }
+                } 
+            }
+            else{
+                cout << "cet objet n'existe pas" << endl;
+            }
+            
+        }
+        else{
+            cout << "je n'ai pas compris -> au combat" << endl;
+        }
+        j1->descriptionPersonnage();
+        j2->descriptionPersonnage();
+        sleep(1);
+        
+    }
+    cout << "----------------- Resultat ---------------------" << endl;
+    cout << j1->getNom() << " VS " << j2->getNom() << endl;
+    cout << j1->getHabilite() << " VS " << j2->getHabilite() << endl;
+    cout << j1->getsante() << " VS " << j2->getsante() << endl;
+
+    if (j1->getsante() == 0)
+    {
+        return true;
+    }
+    else{
+        pieceCourante->retirer(j2);
+    }
+    return false;
     
 }
 
