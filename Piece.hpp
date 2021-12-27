@@ -20,11 +20,15 @@ public:
 
     void getDescription();
     void afficherPersonnages();
+    int getNbObjet() const;
+    int getNbPersonnages() const;
 
     void setSorties(Piece*, Piece*, Piece*, Piece*);
     bool checkSortie(Direction);
     Conteneur<Objet>* getList() const;
     Conteneur<Personnage>* getPersonnages() const;
+    
+    Direction getUneSortie();
     
     void descriptionSorties();
 

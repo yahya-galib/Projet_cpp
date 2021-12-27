@@ -4,7 +4,7 @@ CFLAGS= -Wall
 
 all : exe
 
-exe : main.o Direction.o Conteneur.o Piece.o Objet.o Poison.o Armes.o Boucliers.o Personnage.o MotCleCommandes.o Medicaments.o Jeu.o
+exe : main.o Direction.o Conteneur.o Piece.o Objet.o Poison.o Armes.o Boucliers.o Personnage.o MotCleCommandes.o Medicaments.o Jeu.o Sorciere.o Moine.o Guerrier.o Amazone.o
 	$(CPP) $(CFLAGS) -o $@ $^
 
 main.o : main.cpp
@@ -41,6 +41,18 @@ Personnage.o : Personnage.cpp Personnage.hpp
 	$(CPP) $(CFLAGS) -c $<
 
 Jeu.o : Jeu.cpp Jeu.hpp
+	$(CPP) $(CFLAGS) -c $<
+
+Amazone.o : Amazone.cpp Amazone.hpp
+	$(CPP) $(CFLAGS) -c $<
+
+Guerrier.o : Guerrier.cpp Guerrier.hpp
+	$(CPP) $(CFLAGS) -c $<
+
+Moine.o : Moine.cpp Moine.hpp
+	$(CPP) $(CFLAGS) -c $<
+
+Sorciere.o : Sorciere.cpp Sorciere.hpp
 	$(CPP) $(CFLAGS) -c $<
 
 

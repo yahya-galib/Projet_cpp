@@ -1,26 +1,15 @@
 #include"Jeu.hpp"
 #include<typeinfo>
 #include<iostream>
-
-template<typename Base, typename T>
-inline bool instanceof(const T*) {
-   return is_base_of<Base, T>::value;
-}
-
-void f(Objet *a) {
-   Poison *p = dynamic_cast<Poison *>(a);
-   cout << p << endl;
-}
-
+#include<algorithm>
 
 int main(int argc, char const *argv[])
 {
    
-   Jeu leJeu;
-   leJeu.Jouer();
    
 
-   
+   Jeu leJeu;
+   leJeu.Jouer();
 
    /*MotCleCommandes *com = new MotCleCommandes();
    string s = "aller";

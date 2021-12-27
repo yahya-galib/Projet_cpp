@@ -1,10 +1,14 @@
 #include"Personnage.hpp"
 
-Personnage::Personnage(string nm) : nom{nm}, sante{20} ,habilite{1},frappeDegat{5}, sac {new Conteneur<Objet>} {}
+Personnage::Personnage(string nm) : nom{nm}, sante{20} ,habilite{0},frappeDegat{5},nbObjets{0} ,sac {new Conteneur<Objet>} {}
 
 
 string Personnage::getNom() const{
     return nom;
+}
+
+int Personnage::getNbObjets() const{
+    return nbObjets;
 }
 
 int Personnage::getsante() const{
@@ -17,6 +21,10 @@ int Personnage::getHabilite() const{
 
 int Personnage::getFrappeDegat() const{
     return frappeDegat;
+}
+
+int Personnage::getNbObjetsSac() const{
+    return sac->getNbObjets();
 }
 
 void Personnage::setFrappeDegat(int k){
@@ -34,11 +42,23 @@ void Personnage::setHabilite(int h){
     habilite = h;
 }
 
+void Personnage::setPiece(Piece *p){
+    pieceActuel = p;
+}
+
 void Personnage::augementerSante(int s){
     sante+=s;
 }
 void Personnage::augmenterHabilite(int h){
     habilite+=h;
+}
+
+void Personnage::augmenterNbObjet(){
+    nbObjets++;
+}
+
+void Personnage::diminuerNbObjet(){
+    nbObjets--;
 }
 
 void Personnage::diminuerSante(int s){
@@ -65,6 +85,10 @@ Conteneur<Objet>* Personnage::getObjetsSac() const {
     return sac;
 }
 
+Piece* Personnage::getPieceActuelle() const{
+    return pieceActuel;
+}
+
 void Personnage::afficherObjetSac(){
     for(Objet *s : *sac->getObjets()){
         if (dynamic_cast<Armes *>(s))
@@ -83,11 +107,11 @@ int Personnage::contientObjet(string nm){
     int cont{0};
     for (Objet* i: *sac->getObjets())
     {
-        if(i->getNom() == nm)
+        if(i->getNom() == nm){
             return cont;
+        } 
         cont++;
     }
-
     return -1;
 }
 

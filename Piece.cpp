@@ -1,7 +1,6 @@
 #include"Piece.hpp"
 
 Piece::Piece(string des) : nom{des} , sorties{new vector<pair<enum Direction, Piece*>>()} ,list{new Conteneur<Objet>}, personnages{new Conteneur<Personnage>}{}
-Piece::Piece(string des, Conteneur<Objet>* cont) : nom{des}, sorties{new vector<pair<Direction, Piece*>>()} ,list{cont} {}
 
 Conteneur<Objet>* Piece::getList() const{
     return list;
@@ -13,6 +12,13 @@ Conteneur<Personnage>* Piece::getPersonnages() const{
 
 string Piece::getNom() const{
     return nom;
+}
+
+int Piece::getNbObjet() const{
+    return list->getNbObjets();
+}
+int Piece::getNbPersonnages() const{
+    return personnages->getNbObjets();
 }
 
 void Piece::setSorties(Piece* est, Piece* ouest, Piece* nord, Piece* sud){
