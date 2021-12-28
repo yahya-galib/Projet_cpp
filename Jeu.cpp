@@ -78,51 +78,68 @@ void Jeu::creerJeu(){
     Armes *ar2 = new Armes("marteau_d_acier",4);
     Armes *ar3 = new Armes("dague_de_verre",3);
     Armes *ar4 = new Armes("hache_des_psycho",4);
+    Armes *ar5 = new Armes("Bloodquench",5);
+    Armes *ar6 = new Armes("Nightbane",6);
 
-    Poison *p1 = new Poison("gout_d_hemoragie",3);
+
+    Poison *p1 = new Poison("gout_d_hemoragie",4);
     Poison *p2 = new Poison("rune",2);
-    Poison *p3 = new Poison("piakkazol",2);
-    Poison *p4 = new Poison("toxine_d_entropie",2);
+    Poison *p3 = new Poison("piakkazol",4);
+    Poison *p4 = new Poison("toxine_d_entropie",4);
+    Poison *p5 = new Poison("la_Fleur_d_enfance",5);
+    Poison *p6 = new Poison("verite",2);
 
     Medicaments *m1 = new Medicaments("cicloxane",6);
     Medicaments *m2 = new Medicaments("entatinoin",5);
     Medicaments *m3 = new Medicaments("albutecin",5);
-    Medicaments *m4 = new Medicaments("navelnex_atomoprox",4);
+    Medicaments *m4 = new Medicaments("navelnex_atomoprox",8);
+    Medicaments *m5 = new Medicaments("rositiza",5);
+    Medicaments *m6 = new Medicaments("factocane",4);
 
     Boucliers *b1 = new Boucliers("nights_end",3);
     Boucliers *b2 = new Boucliers("prologue",2);
     Boucliers *b3 = new Boucliers("darkheart",2);
     Boucliers *b4 = new Boucliers("military_visage",3);
+    Boucliers *b5 = new Boucliers("vigilant",2);
+    Boucliers *b6 = new Boucliers("woeful_shield",3);
 
     /*##########  Entree  */
     entree->ajouter(ar1);
-    entree->ajouter(m1);
-    entree->ajouter(b3);
+    entree->ajouter(p2);
+    entree->ajouter(m3);
+    entree->ajouter(b4);
 
     /*######## salle1 */
-    salle1->ajouter(p2);
-    salle1->ajouter(p4);
+    salle1->ajouter(ar2);
+    salle1->ajouter(p3);
+    salle1->ajouter(m4);
+    salle1->ajouter(b5);
 
 
     /*######## salle2 */
-    salle2->ajouter(b1);
-    salle2->ajouter(b2);
-    salle2->ajouter(m4);
+    salle2->ajouter(ar3);
+    salle2->ajouter(p4);
+    salle2->ajouter(m5);
+    salle2->ajouter(b6);
 
     /*######## salle3 */
     salle3->ajouter(ar4);
-    salle3->ajouter(p3);
-    salle3->ajouter(b4);
+    salle3->ajouter(p5);
+    salle3->ajouter(m6);
+    salle3->ajouter(b1);
 
 
     /*######## salle4 */
-    salle4->ajouter(m2);
-    salle4->ajouter(ar2);
+    salle4->ajouter(ar5);
+    salle4->ajouter(p6);
+    salle4->ajouter(m1);
+    salle4->ajouter(b2);
 
     /*######## salle5 */
-    salle5->ajouter(ar3);
-    salle5->ajouter(m3);
+    salle5->ajouter(ar6);
     salle5->ajouter(p1);
+    salle5->ajouter(m2);
+    salle5->ajouter(b3);
 }
 
 
@@ -150,35 +167,36 @@ void Jeu::Jouer(){
             else if(commande1.getCommande() == "quitter"){
                 termine = true;
                 break; 
-                break;
             }
             else
                 auCombat = traiterCommande(commande1);
         }
-        bool aug = false;
-        for (Personnage *p: *pieceCourante->getPersonnages()->getObjets())
-        {
-            combat(joueur, p);
-            if (joueur->getsante() <= 0)
+        if(!termine){
+            bool aug = false;
+            for (Personnage *p: *pieceCourante->getPersonnages()->getObjets())
             {
-                if (joueur->getHabilite() == 0){
-                    termine = true ;
-                    cout << "Vous avez perdu" << endl;
-                    break;
+                combat(joueur, p);
+                if (joueur->getsante() <= 0)
+                {
+                    if (joueur->getHabilite() == 0){
+                        termine = true ;
+                        cout << "Vous avez perdu" << endl;
+                        break;
+                    }
+                    else{
+                        joueur->diminuerHabilite(1);
+                        joueur->setSante(20);
+                    }
                 }
-                else{
-                    joueur->diminuerHabilite(1);
-                    joueur->setSante(20);
+                else if(p->getsante() <= 0){
+                    pieceCourante->retirer(p);
+                    removeJoueur(p);
+                    aug = true;
                 }
             }
-            else if(p->getsante() <= 0){
-                pieceCourante->retirer(p);
-                removeJoueur(p);
-                aug = true;
-            }
-        }
-        if(aug)
-            joueur->augmenterHabilite(1);
+            if(aug)
+                joueur->augmenterHabilite(1);
+        }   
     }
 
 
@@ -195,7 +213,12 @@ void Jeu::removeJoueur(Personnage *p){
 }
 
 void Jeu::effectuerDeplacement(){
-
+    for(Personnage *p : Jeu::listJoueur){
+        p->getPieceActuelle()->retirer(p);
+        Direction d = p->getPieceActuelle()->getUneSortie();
+        p->getPieceActuelle()->pieceSuivante(d)->ajouter(p);
+        p->setPiece(p->getPieceActuelle()->pieceSuivante(d));
+    }
 }
 
 void Jeu::afficherMsgBienvennue(){
@@ -221,6 +244,7 @@ bool Jeu::traiterCommande(MotCleCommandes &cm){
     }else if (cm.getCommande() == "aller")
     {
         deplacerVersAutrePiece();
+        effectuerDeplacement();
     }
     else if (cm.getCommande() == "quitter")
     {
@@ -232,7 +256,7 @@ bool Jeu::traiterCommande(MotCleCommandes &cm){
     }
     else if (cm.getCommande() == "deposer")
     {
-       deposerObjetParUnJoueur();
+        deposerObjetParUnJoueur();
     }
     else if(cm.getCommande() == "afficher"){
         affichage();
@@ -297,6 +321,7 @@ void Jeu::deplacerVersAutrePiece(){
 void Jeu::deposerObjetParUnJoueur(){
     if (joueur->getNbObjets() > 0)
     {
+        joueur->afficherObjetSac();
         cout << "(ou) abandonner" << endl << "objet: ";
         string nm;
         bool depose = false;
@@ -322,7 +347,7 @@ void Jeu::deposerObjetParUnJoueur(){
         
     }
     else{
-        cout << "le sac est plein" << endl;
+        cout << "le sac est vide" << endl;
     }
 }
 

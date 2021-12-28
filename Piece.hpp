@@ -3,6 +3,7 @@
 
 #include"Direction.hpp"
 #include"Personnage.hpp"
+#include<time.h>
 
 class Piece
 {
@@ -27,7 +28,7 @@ public:
     bool checkSortie(Direction);
     Conteneur<Objet>* getList() const;
     Conteneur<Personnage>* getPersonnages() const;
-    
+
     Direction getUneSortie();
     
     void descriptionSorties();

@@ -36,6 +36,12 @@ void Piece::setSorties(Piece* est, Piece* ouest, Piece* nord, Piece* sud){
     }
 }
 
+Direction Piece::getUneSortie(){
+    srand (time(NULL));
+    int k = (int) sorties->size();
+    return sorties->at(rand() % k).first;
+}
+
 void Piece::descriptionSorties(){
     cout << "Sorties: ";
     for(pair<enum Direction, Piece*> s: *sorties){
