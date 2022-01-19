@@ -19,6 +19,7 @@ private:
 
 public:
     Jeu();
+    void ChargerPartieDepuisFichier();
     void creerJeu();
     void Jouer();
     void afficherMsgBienvennue();

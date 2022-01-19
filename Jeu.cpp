@@ -1,5 +1,7 @@
 #include"Jeu.hpp"
 #include <unistd.h>
+#include <iostream>
+#include <fstream>
 
 bool Jeu::termine = false;
 
@@ -18,8 +20,29 @@ vector<Personnage *> Jeu::listJoueur = vector<Personnage *>({new Moine("moine1")
 
 Jeu::Jeu(){
     creerJeu();
+    //ChargerPartieDepuisFichier();
     joueur = new Personnage("moi");
 }
+
+void Jeu::ChargerPartieDepuisFichier(){
+        ifstream monFlux("sauvegarde.txt");  
+
+        if(monFlux)
+        {
+            string line;
+
+            while(getline(monFlux, line)){
+               
+            }
+        }
+        else
+        {
+            cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << endl;
+        }
+
+
+}
+
 
 void Jeu::creerJeu(){
     Piece *entree = new Piece("entree");
@@ -508,8 +531,8 @@ void Jeu::combat(Personnage *j1, Personnage *j2){
     }
     cout << "----------------- Resultat ---------------------" << endl;
     cout << j1->getNom() << " VS " << j2->getNom() << endl;
-    cout << j1->getHabilite() << " VS " << j2->getHabilite() << endl;
-    cout << j1->getsante() << " VS " << j2->getsante() << endl;
+    cout << "Habilité: "<<j1->getHabilite() << " VS " << j2->getHabilite() << endl;
+    cout << "Santé: "<< j1->getsante() << " VS " << j2->getsante() << endl;
     
 }
 
