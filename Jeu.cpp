@@ -457,6 +457,7 @@ void Jeu::combat(Personnage *j1, Personnage *j2){
                         Poison *p = (Poison *) j1->getObjetsSac()->getObjets()->at(choice);
                         j1->diminuerSante(j2->getFrappeDegat());
                         j2->diminuerSante(j1->getFrappeDegat());
+                        
                         j2->diminuerSante(p->getPoisonDegat());
                         j1->retirerObjet(p);
                         j1->diminuerNbObjet();
@@ -519,8 +520,5 @@ void Jeu::combat(Personnage *j1, Personnage *j2){
     cout << j1->getNom() << " VS " << j2->getNom() << endl;
     cout << j1->getHabilite() << " VS " << j2->getHabilite() << endl;
     cout << j1->getsante() << " VS " << j2->getsante() << endl;
-
-
-
     
 }
