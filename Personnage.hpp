@@ -43,6 +43,7 @@ class Personnage
         void augementerSante(int);
         void augmenterHabilite(int);
         void augmenterNbObjet();
+        void augmenteFrappeDegat(int);
 
         void diminuerSante(int);
         void diminuerHabilite(int);

@@ -194,8 +194,17 @@ void Jeu::Jouer(){
                     aug = true;
                 }
             }
-            if(aug)
+            if(aug){
                 joueur->augmenterHabilite(1);
+                joueur->augmenteFrappeDegat(3);
+            }
+            
+            if (joueur->getHabilite() >=3)
+            {
+                termine = true ;
+                cout << "Vous avez gagné" << endl;
+            }
+            
         }   
     }
 
@@ -510,14 +519,8 @@ void Jeu::combat(Personnage *j1, Personnage *j2){
     cout << j1->getNom() << " VS " << j2->getNom() << endl;
     cout << j1->getHabilite() << " VS " << j2->getHabilite() << endl;
     cout << j1->getsante() << " VS " << j2->getsante() << endl;
+
+
+
     
 }
-
-
-/*;
-void Jeu::informatioin();
-
-void Jeu::nombreObjets();
-
-
-*/

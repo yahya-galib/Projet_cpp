@@ -31,6 +31,10 @@ void Personnage::setFrappeDegat(int k){
     frappeDegat = k;
 }
 
+void Personnage::augmenteFrappeDegat(int k){
+    frappeDegat += k;
+}
+
 void Personnage::setNom(string nm){
     nom = nm;
 }
